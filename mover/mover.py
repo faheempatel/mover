@@ -43,29 +43,30 @@ class Transfer(object):
 			print "%i files successfully copied." % (photo_num)
 			
 
-folder_name = raw_input("What would you like to call the folder? \n> ")
+if __name__ == '__main__':
+	folder_name = raw_input("What would you like to call the folder? \n> ")
 
-if folder_name == "":
-	current_date = datetime.now()
-	folder_name = current_date.strftime("%Y-%m-%d")
+	if folder_name == "":
+		current_date = datetime.now()
+		folder_name = current_date.strftime("%Y-%m-%d")
 
-backup_drive = "E:/Photos/%s/" % (folder_name)
+	backup_drive = "E:/Photos/%s/" % (folder_name)
 
-choice = raw_input("\nmove or copy?\n> ").lower()
+	choice = raw_input("\nmove or copy?\n> ").lower()
 
-while True:
+	while True:
 
-	if choice in ["move", "m"]:
-		move_files = Transfer("move", backup_drive)
-		move_files.do()
-		break
+		if choice in ["move", "m"]:
+			move_files = Transfer("move", backup_drive)
+			move_files.do()
+			break
 
-	elif choice in ["copy", "c"]:
-		copy_files = Transfer("copy", backup_drive) 
-		copy_files.do()
-		break
+		elif choice in ["copy", "c"]:
+			copy_files = Transfer("copy", backup_drive) 
+			copy_files.do()
+			break
 
-	else:
-		choice = raw_input('Please enter either "move" or "copy"\n> ').lower()
+		else:
+			choice = raw_input('Please enter either "move" or "copy"\n> ').lower()
 
-raw_input()
+	raw_input()
