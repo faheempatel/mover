@@ -61,27 +61,28 @@ class Transfer(object):
 if __name__ == '__main__':
 	folder_name = raw_input("What would you like to call the folder? \n> ")
 
+	# If no folder name is entered: current date will be the folder's name.
 	if folder_name == "":
 		current_date = datetime.datetime.now()
 		folder_name = current_date.strftime("%Y-%m-%d")
 
 	backup_drive = "E:/Photos/%s/" % (folder_name)
 
-	choice = raw_input("\nmove or copy?\n> ").lower()
+
+	choice = raw_input("\nmove or copy?\n> ")
 
 	while True:
-
-		if choice in ["move", "m"]:
+		if choice.lower() in ["move", "m"]:
 			move_files = Transfer("move", backup_drive)
 			move_files.do()
 			break
 
-		elif choice in ["copy", "c"]:
+		elif choice.lower() in ["copy", "c"]:
 			copy_files = Transfer("copy", backup_drive) 
 			copy_files.do()
 			break
 
 		else:
-			choice = raw_input('Please enter either "move" or "copy"\n> ').lower()
+			choice = raw_input('Please type either "move" or "copy"\n> ')
 
 	raw_input()
