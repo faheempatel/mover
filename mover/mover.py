@@ -1,8 +1,7 @@
-from shutil import move, copy2
-from os import path, mkdir
-from datetime import datetime
-from re import compile, findall
-from glob import glob
+import shutil
+import os
+import datetime
+import re
 
 class Transfer(object):
 
@@ -13,41 +12,57 @@ class Transfer(object):
 
 	def do(self):
 		photo_num = 0
-		file_paths = glob((str(self.source)+ "*/*/*.RW2")) 
+		file_paths = []
+
+		raw = (".3fr", ".ari", ".arw", ".srf", ".sr2", ".bay", ".crw", ".cr2", 
+			".cap", ".iiq", ".eip", ".dcs", ".dcr", ".drf", ".k25", ".kdc", 
+			".dng", ".erf", ".fff", ".mef", ".mos", ".mrw", ".nef", ".nrw", 
+			".orf", ".pef", ".ptx", ".pxn", ".r3d", ".raf", ".raw", ".rw2", 
+			".rwl", ".rwz", ".srw", ".x3f", ".obm")
+
+		#jpeg = (".jpeg", ".jpg")
+
+		# WIP - Don't like the nesting. FIX.
+		for (root, dirs, files) in os.walk(self.source):
+			for name in files:
+				if name.lower().endswith(raw): #or name.lower().endswith(jpeg)):
+					file_paths.append(os.path.join(root, name))
 
 		if not file_paths:
-			raise Exception("Invalid Source or no RW2 files to be found")
+			raise Exception("Invalid Source or no Raw files to be found")
 
-		if not path.exists(self.destination):
-			mkdir(self.destination)
+		if not os.path.exists(self.destination):
+			os.mkdir(self.destination)
 
-		regex = compile(("P\d.*\..*"))
+
+		regex = re.compile("([-\w]+\.\w+)")
 
 		for a_file in file_paths:
 			file_name = regex.findall(a_file).pop()
 			
 			if self.method == "move":	
-				move(a_file, self.destination)
-				print "%s successfully moved" % (file_name)
+				shutil.move(a_file, self.destination)
+				process = "moved"
 
 			elif self.method == "copy":
-				copy2(a_file, self.destination)
-				print "%s successfully copied" % (file_name)
+				shutil.copy2(a_file, self.destination)
+				process = "copied"
+
+			print "%s successfully %s" % (file_name, process)
 
 			photo_num += 1
 
-		if self.method == "move":
-			print "%i files successfully moved." % (photo_num)
-			
-		elif self.method == "copy":
-			print "%i files successfully copied." % (photo_num)
+
+		plural = "files" if photo_num > 1 else "file"
+		
+		print "\n%i %s %s." % (photo_num, plural, process)
 			
 
 if __name__ == '__main__':
 	folder_name = raw_input("What would you like to call the folder? \n> ")
 
 	if folder_name == "":
-		current_date = datetime.now()
+		current_date = datetime.datetime.now()
 		folder_name = current_date.strftime("%Y-%m-%d")
 
 	backup_drive = "E:/Photos/%s/" % (folder_name)
