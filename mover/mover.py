@@ -40,7 +40,7 @@ class Transfer(object):
 			
 			if self.method == "move":	
 				shutil.move(photo, self.destination)
-			else:
+			elif self.method == "copy":
 				shutil.copy2(photo, self.destination)
 
 			print "%s %s" % (photo_name, process)
