@@ -4,10 +4,10 @@ except ImportError:
 	from distutils.core import setup
 
 config = {
-	'description': 'A tool to help move/copy RW2 files',
+	'description': 'A tool to help move/copy RAW files',
  	'author': 'Faheem Patel',
 	'url': 'URL to get it at.',
-	'download_url': 'Where to download it.',
+	'download_url': 'https://github.com/faheempatel/mover',
 	'author_email': 'faheem@faheempatel.com',
 	'version': '0.1',
 	'install_requires': ['nose'],
